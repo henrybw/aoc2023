@@ -49,6 +49,7 @@ fn main() {
         "day1.1" | "1.1" => day1::part1(input) as i64,
         "day1.2" | "1.2" => day1::part2(input) as i64,
         "day2.1" | "2.1" => day2::part1(input) as i64,
+        "day2.2" | "2.2" => day2::part2(input) as i64,
         _ => panic!("unknown puzzle: {}", puzzle),
     };
     println!("{}", output);
