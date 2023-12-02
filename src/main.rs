@@ -44,12 +44,12 @@ fn main() {
         .expect("needs a puzzle to run, e.g. `day1.1` or `1.1`");
     let input = env::args().nth(2).map(read_from_filename_or_stdin);
     let output = match &puzzle[..] {
-        "day0.1" | "0.1" => day0::part1(input) as i64,
-        "day0.2" | "0.2" => day0::part2(input) as i64,
-        "day1.1" | "1.1" => day1::part1(input) as i64,
-        "day1.2" | "1.2" => day1::part2(input) as i64,
-        "day2.1" | "2.1" => day2::part1(input) as i64,
-        "day2.2" | "2.2" => day2::part2(input) as i64,
+        "day0.1" | "0.1" => day0::part1(input),
+        "day0.2" | "0.2" => day0::part2(input),
+        "day1.1" | "1.1" => day1::part1(input),
+        "day1.2" | "1.2" => day1::part2(input),
+        "day2.1" | "2.1" => day2::part1(input),
+        "day2.2" | "2.2" => day2::part2(input),
         _ => panic!("unknown puzzle: {}", puzzle),
     };
     println!("{}", output);
