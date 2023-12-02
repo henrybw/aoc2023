@@ -1,5 +1,6 @@
 mod day0;
 mod day1;
+mod day2;
 
 use std::env;
 use std::fs::File;
@@ -47,6 +48,7 @@ fn main() {
         "day0.2" | "0.2" => day0::part2(input) as i64,
         "day1.1" | "1.1" => day1::part1(input) as i64,
         "day1.2" | "1.2" => day1::part2(input) as i64,
+        "day2.1" | "2.1" => day2::part1(input) as i64,
         _ => panic!("unknown puzzle: {}", puzzle),
     };
     println!("{}", output);
