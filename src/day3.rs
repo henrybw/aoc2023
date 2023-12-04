@@ -99,6 +99,54 @@ pub fn part1(input: Option<String>) -> u32 {
     sum
 }
 
+pub fn part2(input: Option<String>) -> u32 {
+    let grid = Grid::new(input.unwrap_or_else(example_input));
+    let mut sum = 0;
+    for y in 0..grid.height {
+        for x in 0..grid.width {
+            let c = grid.get(x, y);
+            if c != '*' {
+                continue;
+            }
+
+            let mut digits_seen: HashSet<(usize, usize)> = HashSet::new();
+            let mut numbers = Vec::new();
+            for dy in -1..=1 {
+                let ny = y as isize + dy;
+                if ny < 0 || ny >= grid.height as isize {
+                    continue;
+                }
+                for dx in -1..=1 {
+                    if dx == 0 && dy == 0 {
+                        continue;
+                    }
+                    let nx = x as isize + dx;
+                    if nx < 0 || nx >= grid.width as isize {
+                        continue;
+                    }
+                    if !grid.get(nx as usize, ny as usize).is_ascii_digit()
+                        || digits_seen.contains(&(nx as usize, ny as usize))
+                    {
+                        continue;
+                    }
+
+                    // this is a number we haven't seen for this gear before
+                    let (num, start_x, end_x) =
+                        grid.extract_number(nx as usize, ny as usize);
+                    numbers.push(num);
+                    for sx in start_x..end_x {
+                        digits_seen.insert((sx, ny as usize));
+                    }
+                }
+            }
+            if numbers.len() == 2 {
+                sum += numbers.iter().product::<u32>()
+            }
+        }
+    }
+    sum
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -106,5 +154,10 @@ mod tests {
     #[test]
     fn example_part1() {
         assert_eq!(part1(None), 4361);
+    }
+
+    #[test]
+    fn example_part2() {
+        assert_eq!(part2(None), 467835);
     }
 }
