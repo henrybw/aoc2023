@@ -2,6 +2,7 @@ mod day0;
 mod day1;
 mod day2;
 mod day3;
+mod day4;
 
 use std::env;
 use std::fs::File;
@@ -53,6 +54,7 @@ fn main() {
         "day2.2" | "2.2" => day2::part2(input),
         "day3.1" | "3.1" => day3::part1(input),
         "day3.2" | "3.2" => day3::part2(input),
+        "day4.1" | "4.1" => day4::part1(input),
         _ => panic!("unknown puzzle: {}", puzzle),
     };
     println!("{}", output);
