@@ -1,5 +1,6 @@
 use itertools::Itertools;
 use rangemap::RangeMap;
+use rayon::prelude::*;
 use std::collections::HashMap;
 use std::ops::Range;
 use std::str::Lines;
@@ -122,6 +123,22 @@ pub fn part1(input: Option<String>) -> u32 {
         .unwrap() as u32
 }
 
+pub fn part2(input: Option<String>) -> u32 {
+    let almanac = Almanac::new(input.unwrap_or_else(example_input));
+    let mut new_seeds = Vec::new();
+    almanac
+        .seeds
+        .iter()
+        .step_by(2)
+        .zip(almanac.seeds.iter().skip(1).step_by(2))
+        .for_each(|(&start, &length)| new_seeds.extend(start..start + length));
+    new_seeds
+        .par_iter()
+        .map(|&seed| almanac.seed_to_location(seed))
+        .min()
+        .unwrap() as u32
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -129,6 +146,11 @@ mod tests {
     #[test]
     fn example_part1() {
         assert_eq!(part1(None), 35);
+    }
+
+    #[test]
+    fn example_part2() {
+        assert_eq!(part2(None), 46);
     }
 
     #[test]
