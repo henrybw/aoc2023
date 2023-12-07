@@ -2,7 +2,7 @@ fn example_input() -> String {
     String::from_utf8_lossy(include_bytes!("day6_example.txt")).to_string()
 }
 
-fn parse(input: String) -> Vec<(u32, u32)> {
+fn parse_part1(input: String) -> Vec<(u64, u64)> {
     let lines: Vec<_> = input.lines().collect();
     assert_eq!(lines.len(), 2);
 
@@ -15,35 +15,71 @@ fn parse(input: String) -> Vec<(u32, u32)> {
         .next()
         .unwrap()
         .split_whitespace()
-        .map(|n| n.parse::<u32>().unwrap());
+        .map(|n| n.parse::<u64>().unwrap());
     let distances = distance_line
         .next()
         .unwrap()
         .split_whitespace()
-        .map(|n| n.parse::<u32>().unwrap());
+        .map(|n| n.parse::<u64>().unwrap());
     Vec::from_iter(times.zip(distances))
 }
 
-fn possible_wins(race: &(u32, u32)) -> u32 {
+fn possible_wins(race: &(u64, u64)) -> u64 {
+    fn distance(time: u64, speed: u64) -> u64 {
+        speed * (time - speed)
+    }
+
     let (time, record) = *race;
-    let mut wins = 0;
+    let mut lo = 0;
     for speed in 1..time {
-        let time_left = time - speed;
-        let distance = speed * time_left;
-        if distance > record {
-            wins += 1;
-        } else if wins > 0 {
+        if distance(time, speed) > record {
+            lo = speed;
             break;
         }
     }
-    wins
+    let mut hi = 0;
+    for speed in (1..time).rev() {
+        if distance(time, speed) > record {
+            hi = speed;
+            break;
+        }
+    }
+    hi - lo + 1
 }
 
 pub fn part1(input: Option<String>) -> u32 {
-    parse(input.unwrap_or_else(example_input))
+    parse_part1(input.unwrap_or_else(example_input))
         .iter()
         .map(possible_wins)
-        .product()
+        .product::<u64>() as u32
+}
+
+fn parse_part2(input: String) -> (u64, u64) {
+    let lines: Vec<_> = input.lines().collect();
+    assert_eq!(lines.len(), 2);
+
+    let mut time_line = lines[0].split(":");
+    assert_eq!(time_line.next(), Some("Time"));
+    let mut distance_line = lines[1].split(":");
+    assert_eq!(distance_line.next(), Some("Distance"));
+
+    let time = time_line
+        .next()
+        .unwrap()
+        .replace(" ", "")
+        .parse::<u64>()
+        .unwrap();
+    let distance = distance_line
+        .next()
+        .unwrap()
+        .replace(" ", "")
+        .parse::<u64>()
+        .unwrap();
+    (time, distance)
+}
+
+pub fn part2(input: Option<String>) -> u32 {
+    possible_wins(&parse_part2(input.unwrap_or_else(example_input))) as u32
 }
 
 #[cfg(test)]
@@ -53,5 +89,10 @@ mod tests {
     #[test]
     fn example_part1() {
         assert_eq!(part1(None), 288);
+    }
+
+    #[test]
+    fn example_part2() {
+        assert_eq!(part2(None), 71503);
     }
 }
