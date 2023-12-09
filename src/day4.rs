@@ -15,19 +15,19 @@ fn winning_numbers(line: &str) -> HashSet<&str> {
     winning.intersection(&have).cloned().collect()
 }
 
-pub fn part1(input: Option<String>) -> u32 {
+pub fn part1(input: Option<String>) -> u64 {
     let mut sum = 0;
     for line in input.unwrap_or_else(example_input).lines() {
         let won = winning_numbers(line);
         if won.is_empty() {
             continue;
         }
-        sum += 2_u32.pow(won.len() as u32 - 1);
+        sum += 2_u64.pow(won.len() as u32 - 1);
     }
     sum
 }
 
-pub fn part2(input: Option<String>) -> u32 {
+pub fn part2(input: Option<String>) -> u64 {
     let mut copies_by_card = HashMap::new();
     for (i, line) in input.unwrap_or_else(example_input).lines().enumerate() {
         let count = copies_by_card.get(&i).unwrap_or(&0);

@@ -106,7 +106,7 @@ fn card_weight(card: char, jokers: bool) -> u32 {
     }
 }
 
-fn total_winnings(input: &str, jokers: bool) -> usize {
+fn total_winnings(input: &str, jokers: bool) -> u64 {
     input
         .lines()
         .map(str::split_whitespace)
@@ -139,18 +139,18 @@ fn total_winnings(input: &str, jokers: bool) -> usize {
         .enumerate()
         .fold(0, |acc, rank_hand_bid| {
             let (rank, (_, _, bid)) = rank_hand_bid;
-            acc + bid * (rank + 1)
+            acc + (bid * (rank + 1)) as u64
         })
 }
 
-pub fn part1(input: Option<String>) -> u32 {
+pub fn part1(input: Option<String>) -> u64 {
     let input = input.unwrap_or_else(example_input);
-    total_winnings(&input, false) as u32
+    total_winnings(&input, false)
 }
 
-pub fn part2(input: Option<String>) -> u32 {
+pub fn part2(input: Option<String>) -> u64 {
     let input = input.unwrap_or_else(example_input);
-    total_winnings(&input, true) as u32
+    total_winnings(&input, true)
 }
 
 #[cfg(test)]

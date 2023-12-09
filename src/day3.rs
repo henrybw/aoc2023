@@ -25,7 +25,7 @@ impl Grid {
         self.cells[y * self.height + x]
     }
 
-    fn extract_number(&self, x: usize, y: usize) -> (u32, usize, usize) {
+    fn extract_number(&self, x: usize, y: usize) -> (u64, usize, usize) {
         let mut start_x = x as isize;
         while start_x >= 0 {
             let c = self.get(start_x as usize, y);
@@ -48,13 +48,13 @@ impl Grid {
         let end = y as usize * self.height + end_x as usize;
         let mut num = 0;
         for c in &self.cells[start..end] {
-            num = 10 * num + c.to_digit(10).unwrap();
+            num = 10 * num + c.to_digit(10).unwrap() as u64;
         }
         (num, start_x as usize, end_x as usize)
     }
 }
 
-pub fn part1(input: Option<String>) -> u32 {
+pub fn part1(input: Option<String>) -> u64 {
     let grid = Grid::new(input.unwrap_or_else(example_input));
     let mut digits_seen: HashSet<(usize, usize)> = HashSet::new();
     let mut sum = 0;
@@ -99,7 +99,7 @@ pub fn part1(input: Option<String>) -> u32 {
     sum
 }
 
-pub fn part2(input: Option<String>) -> u32 {
+pub fn part2(input: Option<String>) -> u64 {
     let grid = Grid::new(input.unwrap_or_else(example_input));
     let mut sum = 0;
     for y in 0..grid.height {
@@ -140,7 +140,7 @@ pub fn part2(input: Option<String>) -> u32 {
                 }
             }
             if numbers.len() == 2 {
-                sum += numbers.iter().product::<u32>()
+                sum += numbers.iter().product::<u64>()
             }
         }
     }

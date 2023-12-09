@@ -2,27 +2,27 @@
 
 use std::str::Lines;
 
-fn solve_part1(entries: &[u32]) -> u32 {
+fn solve_part1(entries: &[u64]) -> u64 {
     entries[0]
 }
 
-fn solve_part2(entries: &[u32]) -> u32 {
+fn solve_part2(entries: &[u64]) -> u64 {
     entries[1]
 }
 
-fn parse_lines(lines: Lines) -> Vec<u32> {
+fn parse_lines(lines: Lines) -> Vec<u64> {
     lines
         .map(|line| line.parse().unwrap())
-        .collect::<Vec<u32>>()
+        .collect::<Vec<u64>>()
 }
 
-fn example_input() -> Vec<u32> {
+fn example_input() -> Vec<u64> {
     let example =
         String::from_utf8_lossy(include_bytes!("day0_example.txt")).to_string();
     parse_lines(example.lines())
 }
 
-fn parse_input(input: Option<String>) -> Vec<u32> {
+fn parse_input(input: Option<String>) -> Vec<u64> {
     if let Some(contents) = input {
         parse_lines(contents.lines())
     } else {
@@ -30,11 +30,11 @@ fn parse_input(input: Option<String>) -> Vec<u32> {
     }
 }
 
-pub fn part1(input: Option<String>) -> u32 {
+pub fn part1(input: Option<String>) -> u64 {
     solve_part1(&parse_input(input))
 }
 
-pub fn part2(input: Option<String>) -> u32 {
+pub fn part2(input: Option<String>) -> u64 {
     solve_part2(&parse_input(input))
 }
 

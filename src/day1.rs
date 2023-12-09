@@ -10,21 +10,21 @@ fn part2_example_input() -> String {
         .to_string()
 }
 
-pub fn part1(input: Option<String>) -> u32 {
+pub fn part1(input: Option<String>) -> u64 {
     let input = input.unwrap_or_else(part1_example_input);
     let mut sum = 0;
     for line in input.lines() {
         let digits = line
             .chars()
             .filter(char::is_ascii_digit)
-            .map(|c| c.to_digit(10).unwrap())
-            .collect::<Vec<u32>>();
+            .map(|c| c.to_digit(10).unwrap() as u64)
+            .collect::<Vec<_>>();
         sum += digits.first().unwrap() * 10 + digits.last().unwrap();
     }
     sum
 }
 
-fn digit_from_string(s: &str) -> u32 {
+fn digit_from_string(s: &str) -> u64 {
     let spellings = HashMap::from([
         ("one", 1),
         ("two", 2),
@@ -39,7 +39,7 @@ fn digit_from_string(s: &str) -> u32 {
     spellings[s]
 }
 
-pub fn part2(input: Option<String>) -> u32 {
+pub fn part2(input: Option<String>) -> u64 {
     let prefixes = HashMap::from([
         ('o', vec!["one"]),
         ('t', vec!["two", "three"]),
@@ -63,7 +63,7 @@ pub fn part2(input: Option<String>) -> u32 {
         let mut first = 0;
         'outer: for (i, c) in line.char_indices() {
             if c.is_ascii_digit() {
-                first = c.to_digit(10).unwrap();
+                first = c.to_digit(10).unwrap() as u64;
                 break 'outer;
             }
             if prefixes.contains_key(&c) {
@@ -83,7 +83,7 @@ pub fn part2(input: Option<String>) -> u32 {
         let mut last = 0;
         'outer: for (i, c) in line.char_indices().rev() {
             if c.is_ascii_digit() {
-                last = c.to_digit(10).unwrap();
+                last = c.to_digit(10).unwrap() as u64;
                 break 'outer;
             }
             if suffixes.contains_key(&c) {

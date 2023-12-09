@@ -21,7 +21,7 @@ impl CategoryMap {
 
         let mut map = RangeMap::new();
         lines.take_while(|line| !line.is_empty()).for_each(|line| {
-            let nums: Vec<u64> = line
+            let nums: Vec<_> = line
                 .split_whitespace()
                 .map(|n| n.parse().unwrap())
                 .collect();
@@ -113,17 +113,17 @@ fn example_input() -> String {
     String::from_utf8_lossy(include_bytes!("day5_example.txt")).to_string()
 }
 
-pub fn part1(input: Option<String>) -> u32 {
+pub fn part1(input: Option<String>) -> u64 {
     let almanac = Almanac::new(input.unwrap_or_else(example_input));
     almanac
         .seeds
         .iter()
         .map(|&seed| almanac.seed_to_location(seed))
         .min()
-        .unwrap() as u32
+        .unwrap()
 }
 
-pub fn part2(input: Option<String>) -> u32 {
+pub fn part2(input: Option<String>) -> u64 {
     let almanac = Almanac::new(input.unwrap_or_else(example_input));
     let mut new_seeds = Vec::new();
     almanac
@@ -136,7 +136,7 @@ pub fn part2(input: Option<String>) -> u32 {
         .par_iter()
         .map(|&seed| almanac.seed_to_location(seed))
         .min()
-        .unwrap() as u32
+        .unwrap()
 }
 
 #[cfg(test)]

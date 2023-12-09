@@ -42,21 +42,21 @@ impl Network {
         }
     }
 
-    fn aaa_to_zzz(&self) -> usize {
+    fn aaa_to_zzz(&self) -> u64 {
         let mut node = "AAA";
         for (i, &instr) in self.instrs.iter().cycle().enumerate() {
             node = self.next(node, instr);
             if node == "ZZZ" {
-                return i + 1;
+                return (i + 1) as u64;
             }
         }
         unreachable!("no ZZZ node found");
     }
 }
 
-pub fn part1(input: Option<String>) -> u32 {
+pub fn part1(input: Option<String>) -> u64 {
     let network = Network::new(input.unwrap_or_else(example_input));
-    network.aaa_to_zzz() as u32
+    network.aaa_to_zzz()
 }
 
 #[cfg(test)]

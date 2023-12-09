@@ -4,7 +4,7 @@ fn example_input() -> String {
     String::from_utf8_lossy(include_bytes!("day2_example.txt")).to_string()
 }
 
-pub fn part1(input: Option<String>) -> u32 {
+pub fn part1(input: Option<String>) -> u64 {
     let input = input.unwrap_or_else(example_input);
     let max_cubes = HashMap::from([("red", 12), ("green", 13), ("blue", 14)]);
     let mut sum = 0;
@@ -16,20 +16,20 @@ pub fn part1(input: Option<String>) -> u32 {
             let cubes_by_color: Vec<_> = set.split(", ").collect();
             for cubes in cubes_by_color {
                 let count_color: Vec<_> = cubes.split_whitespace().collect();
-                let count: u32 = count_color[0].parse().unwrap();
+                let count: u64 = count_color[0].parse().unwrap();
                 let color = count_color[1];
                 if count > max_cubes[color] {
                     continue 'next;
                 }
             }
         }
-        let id: u32 = game[0]["Game ".len()..].parse().unwrap();
+        let id: u64 = game[0]["Game ".len()..].parse().unwrap();
         sum += id;
     }
     sum
 }
 
-pub fn part2(input: Option<String>) -> u32 {
+pub fn part2(input: Option<String>) -> u64 {
     let input = input.unwrap_or_else(example_input);
     let mut power_sum = 0;
 
@@ -42,14 +42,14 @@ pub fn part2(input: Option<String>) -> u32 {
             let cubes_by_color: Vec<_> = set.split(", ").collect();
             for cubes in cubes_by_color {
                 let count_color: Vec<_> = cubes.split_whitespace().collect();
-                let count: u32 = count_color[0].parse().unwrap();
+                let count: u64 = count_color[0].parse().unwrap();
                 let color = count_color[1];
                 if count > min_set[color] {
                     min_set.insert(color, count);
                 }
             }
         }
-        power_sum += min_set.values().product::<u32>();
+        power_sum += min_set.values().product::<u64>();
     }
     power_sum
 }
