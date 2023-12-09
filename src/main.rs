@@ -67,6 +67,7 @@ fn main() {
         "day7.1" | "7.1" => day7::part1(input),
         "day7.2" | "7.2" => day7::part2(input),
         "day8.1" | "8.1" => day8::part1(input),
+        "day8.2" | "8.2" => day8::part2(input),
         _ => panic!("unknown puzzle: {}", puzzle),
     };
     println!("{}", output);
